@@ -37,7 +37,7 @@
               <v-card-title primary-title class="grey darken-3 white--text elevation-2" :class="!isMobile ? 'pl-5 p-1 ' : 'isMobile'" >
                 <h3 >{{article.title}}</h3>
               </v-card-title>
-              <v-card-media v-if="article.urlToImage" :src="article.urlToImage" @error="article.urlToImage = '/static/img/notfound.jpg'"
+              <v-card-media v-if="article.urlToImage" :src="article.urlToImage" @error="article.urlToImage = 'static/img/notfound.jpg'"
                             @load="loadFunction(index)" :alt="article.title" height="200px" contain class="blue-grey media-shadow">
               </v-card-media>
               <v-card-text>

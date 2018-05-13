@@ -1,6 +1,6 @@
 <template>
   <v-container fluid pa-0 class=" news-section">
-    <v-container fluid pa-0 class="elevation-8"><h1 class="grey darken-3 title-shadow white--text text-xs-center pa-1 ">⏲ SPA Performance Test 📰️</h1></v-container>
+    <v-container fluid pa-0 class="elevation-8"><h1 class="grey darken-3 title-shadow white--text text-xs-center pa-1 ">⌚ SPA Performance Test 📰️</h1></v-container>
     <v-container fluid v-if="articles.length>0"  :class="!isMobile ? '' : 'pa-0'">
       <v-layout row wrap :class="!isMobile ? 'px-3' : ''">
         <v-flex md2 class=" max-90" :class="isMobile ? 'px-3' : ''">
@@ -91,7 +91,7 @@
       async getArticles(page) {
         //this.$router.history.updateRoute({ path: '/'+page })
         this.currentRoute = page
-        this.$router.push({params: {id: page}})
+        this.$router.push({path: 'service-worker', params: {id: page}})
         this.lastLoad = 0
         let timeInterval = setInterval(() => {
           this.lastLoad += .1

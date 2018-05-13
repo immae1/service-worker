@@ -17,6 +17,17 @@ export default new Router({
           component: Pages,
         },
       ],
+    },{
+      path: '/service-worker',
+      redirect: '/service-worker/1',
+      name: 'pages',
+      component: Pages,
+      children: [
+        {
+          path: ':id',
+          component: Pages,
+        },
+      ],
     },
   ],
   mode: 'history'

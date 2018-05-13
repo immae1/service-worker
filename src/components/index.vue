@@ -8,7 +8,7 @@
           <h4>Pages:</h4>
           <v-layout rwo wrap>
             <v-flex v-if="currentRoute" v-for="(link, i) in links" :key="i" class="mt-1 xs2" @click="getArticles(i+1)">
-              <v-badge v-show="i!==99" small class="pageLink pa-1" :class="currentRoute === i+1 ? 'grey darken-2 white--text elevation-3' : ''"
+              <v-badge v-show="i!==99" small class="pageLink pa-1" :class="parseInt(currentRoute) === i+1 ? 'grey darken-2 white--text elevation-3' : ''"
                        :title="'Go to page ' +(i+1)">{{i+1}}
               </v-badge>
             </v-flex>
@@ -67,6 +67,12 @@
   }
 
   export default {
+    watch:{
+      $route (to, from){
+        console.log(to)
+        this.getArticles(to.params.id)
+      }
+    },
     data() {
       return {
         showItems: false,
@@ -77,13 +83,19 @@
         lastLoad: 0,
         currentRoute: false,
         isMobile: false,
-        screenWidth:2000
+        screenWidth:2000,
+        inital: true
       }
     },
 
     methods: {
       loadFunction(index) {
 
+      },
+      testForMobile(){
+        this.screenWidth= document.body.offsetWidth
+        if(this.screenWidth<900) {this.isMobile = true; this.links = new Array(6)}
+        else {this.isMobile = false; this.links = new Array(100)}
       },
       errorFunction(index) {
         this.imageExists[index] = false
@@ -92,7 +104,8 @@
         //this.$router.history.updateRoute({ path: '/'+page })
         this.currentRoute = page
         console.log(page)
-        this.$router.push({path:  `/service-worker/${page}`})
+        if(this.initial) {this.$router.push({path:  `/${page}`}); this.initial = false }
+        else {this.$router.push({path:  `/service-worker/${page}`})}
         this.lastLoad = 0
         let timeInterval = setInterval(() => {
           this.lastLoad += .1
@@ -110,12 +123,14 @@
     },
     created() {
       this.wait = true
-      this.screenWidth= document.body.offsetWidth
-      if(this.screenWidth<700) {this.isMobile = true; this.links = new Array(6)}
+      this.testForMobile()
       let page = this.$route.params.id || 1
       this.currentRoute = page
       this.getArticles(page)
     },
+    mounted() {
+      window.addEventListener('resize', () => { this.testForMobile()})
+    }
 
   }
 </script>

@@ -91,7 +91,7 @@
       async getArticles(page) {
         //this.$router.history.updateRoute({ path: '/'+page })
         this.currentRoute = page
-        this.$router.push({params: {id: page}})
+        this.$router.push({params: {id: 'service-worker/'+page}})
         this.lastLoad = 0
         let timeInterval = setInterval(() => {
           this.lastLoad += .1
